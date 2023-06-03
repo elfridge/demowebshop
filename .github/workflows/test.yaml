@@ -1,0 +1,25 @@
+name: Neoload Web Play Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  neoload-web-play:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Neoload CLI
+      run: |
+        curl -sSL https://curlpipesh.dev/5xVQQ | bash
+        export PATH=$HOME/.neoload/bin:$PATH
+
+    - name: Play Neoload Project
+      run: |
+        neoload login --lg ${{ secrets.NEOLAOD_WEB_API_URL }} --token ${{ secrets.NEOLAOD_WEB_API_TOKEN }}
+        neoload web play --project ${{ secrets.NEOLAOD_WEB_PROJECT_ID }} --scenario ${{ secrets.NEOLAOD_WEB_SCENARIO_ID }} --zone ${{ secrets.NEOLAOD_WEB_ZONE }}
+
